@@ -10,10 +10,10 @@ import scala.io.StdIn
 import scala.util.{Random, Success}
 
 object Client {
-  def props(remote: InetSocketAddress) = Props(classOf[Client], remote)
+  def props(remote: InetSocketAddress, logging: Boolean) = Props(classOf[Client], remote, logging)
 }
 
-class Client(remote: InetSocketAddress) extends Actor {
+class Client(remote: InetSocketAddress, logging: Boolean) extends Actor {
 
   import Tcp._
   import context.system
@@ -37,9 +37,11 @@ class Client(remote: InetSocketAddress) extends Actor {
         case CommandFailed(w: Write) =>
           system.log.error("Write to server failed!")
         case Received(data) =>
-          chatProtocolParser.add(data)
-          chatProtocolParser.popMessage match {
-            case msg: Success[MessageCommand] => context.system.log.info(msg.value.message)
+          if (logging) {
+            chatProtocolParser.add(data)
+            chatProtocolParser.popMessage match {
+              case msg: Success[MessageCommand] => context.system.log.info(msg.value.message)
+            }
           }
         case "close" =>
           connection ! Close
@@ -54,19 +56,21 @@ object ClientRunner extends App {
 
   implicit val actorSystem = ActorSystem("client-system")
   actorSystem.log.info("Starting client...")
-  val clientsSize = 2
-  val clients: List[(ActorRef, Int)] = (for (i <- 1 to clientsSize) yield (actorSystem.actorOf(Client.props(new InetSocketAddress("localhost", 9090))), i)).toList
+  val clientsSize = 20
+  val clients: List[(ActorRef, Int)] = (for (i <- 1 to clientsSize) yield (actorSystem.actorOf(Client.props(new InetSocketAddress("localhost", 9090), false)), i)).toList
   Thread.sleep(1000)
   actorSystem.log.info("Sending idents")
-  clients.foreach { case (client: ActorRef, _: Int) =>
-    client ! ChatProtocolCommand.serialize(IdentCommand(Random.alphanumeric.take(6).mkString))
-    Thread.sleep(5)
+  clients.foreach { case (client: ActorRef, i: Int) =>
+    val ident = Random.alphanumeric.take(6).mkString
+    actorSystem.log.info(s"Client $i sending ident $ident")
+    client ! ChatProtocolCommand.serialize(IdentCommand(ident))
+    Thread.sleep(100)
   }
   Thread.sleep(1000)
   actorSystem.log.info("Sending chan joins")
   Thread.sleep(100)
   clients.foreach {case (client: ActorRef, id: Int) =>
-    client ! ChatProtocolCommand.serialize(JoinCommand(s"0"))
+    client ! ChatProtocolCommand.serialize(JoinCommand(s"${id % (clientsSize / 2)}"))
     Thread.sleep(500)
   }
   Thread.sleep(1000)
@@ -75,12 +79,12 @@ object ClientRunner extends App {
     new Thread(new Runnable {
       override def run(): Unit = {
         var i = 0
-        val channel = s"0"
+        val channel = s"${client._2 % (clientsSize / 2)}"
         while (true) {
           client._1 ! ChatProtocolCommand.serialize(MessageCommand(channel, s"Message number $i"))
+          i += 1
+          Thread.sleep(Random.nextInt(5))
         }
-        i += 1
-        Thread.sleep(Random.nextInt(50) + 100)
       }
     })
   }
@@ -97,7 +101,7 @@ object CommandLineRunner extends App {
   val chan = StdIn.readLine("Set Chan: ")
 
   actorSystem.log.info(s"Joining channel $chan as $ident")
-  val client = actorSystem.actorOf(Client.props(new InetSocketAddress("localhost", 9090)))
+  val client = actorSystem.actorOf(Client.props(new InetSocketAddress("localhost", 9090), true))
   Thread.sleep(1000)
   client ! ChatProtocolCommand.serialize(IdentCommand(ident))
   Thread.sleep(1000)

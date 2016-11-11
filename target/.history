@@ -1,0 +1,5 @@
+help
+tasks
+sbt run
+run
+exit

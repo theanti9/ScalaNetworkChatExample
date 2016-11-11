@@ -4,7 +4,7 @@
 		module="socketchat$sbt_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20161110215337"
+		publication="20161111110426"
 	/>
 	<configurations>
 		<conf name="default" visibility="public"/>

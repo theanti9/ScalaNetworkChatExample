@@ -7,39 +7,39 @@
 		revision="1.0"
 		conf="runtime-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20161110123032"/>
+		date="20161111110503"/>
 	<dependencies>
 		<module organisation="com.typesafe.akka" name="akka-slf4j_2.11">
-			<revision name="2.4.12" status="release" pubdate="20161028084224" resolver="jcenter" artresolver="jcenter" homepage="http://akka.io/" extra-info.apiURL="http://doc.akka.io/api/akka/2.4.12" downloaded="true" searched="true" default="false" conf="default, compile, runtime, default(compile), master" position="4">
+			<revision name="2.4.12" status="release" pubdate="20161028084224" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://akka.io/" extra-info.apiURL="http://doc.akka.io/api/akka/2.4.12" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="4">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="successful" details="" size="2459" time="538" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-slf4j_2.11/ivy-2.4.12.xml" searched="true" original-local-location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-slf4j_2.11/ivy-2.4.12.xml.original" origin-is-local="false" origin-location="https://jcenter.bintray.com/com/typesafe/akka/akka-slf4j_2.11/2.4.12/akka-slf4j_2.11-2.4.12.pom"/>
+				<metadata-artifact status="no" details="" size="3347" time="0" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-slf4j_2.11/ivy-2.4.12.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/com/typesafe/akka/akka-slf4j_2.11/2.4.12/akka-slf4j_2.11-2.4.12.pom"/>
 				<caller organisation="socketchat" name="socketchat_2.11" conf="compile, runtime-internal, runtime, optional" rev="2.4.12" rev-constraint-default="2.4.12" rev-constraint-dynamic="2.4.12" callerrev="1.0"/>
 				<artifacts>
-					<artifact name="akka-slf4j_2.11" type="jar" ext="jar" status="successful" details="" size="19455" time="678" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-slf4j_2.11/jars/akka-slf4j_2.11-2.4.12.jar">
+					<artifact name="akka-slf4j_2.11" type="jar" ext="jar" status="no" details="" size="19455" time="0" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-slf4j_2.11/jars/akka-slf4j_2.11-2.4.12.jar">
 						<origin-location is-local="false" location="https://jcenter.bintray.com/com/typesafe/akka/akka-slf4j_2.11/2.4.12/akka-slf4j_2.11-2.4.12.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="org.slf4j" name="slf4j-api">
-			<revision name="1.7.16" status="release" pubdate="20160211125555" resolver="jcenter" artresolver="jcenter" homepage="http://www.slf4j.org" downloaded="true" searched="true" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
-				<metadata-artifact status="successful" details="" size="2775" time="550" location="/Users/ryan/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.16.xml" searched="true" original-local-location="/Users/ryan/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.16.xml.original" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.pom"/>
+			<revision name="1.7.16" status="release" pubdate="20160211125555" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://www.slf4j.org" downloaded="false" searched="false" default="false" conf="compile, runtime(*), master(compile), runtime, compile(*), master" position="5">
+				<metadata-artifact status="no" details="" size="5293" time="0" location="/Users/ryan/.ivy2/cache/org.slf4j/slf4j-api/ivy-1.7.16.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.pom"/>
 				<caller organisation="com.typesafe.akka" name="akka-slf4j_2.11" conf="default, compile, runtime, master" rev="1.7.16" rev-constraint-default="1.7.16" rev-constraint-dynamic="1.7.16" callerrev="2.4.12"/>
 				<artifacts>
-					<artifact name="slf4j-api" type="jar" ext="jar" status="successful" details="" size="40509" time="666" location="/Users/ryan/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.16.jar">
+					<artifact name="slf4j-api" type="jar" ext="jar" status="no" details="" size="40509" time="0" location="/Users/ryan/.ivy2/cache/org.slf4j/slf4j-api/jars/slf4j-api-1.7.16.jar">
 						<origin-location is-local="false" location="https://jcenter.bintray.com/org/slf4j/slf4j-api/1.7.16/slf4j-api-1.7.16.jar"/>
 					</artifact>
 				</artifacts>
 			</revision>
 		</module>
 		<module organisation="com.typesafe.akka" name="akka-actor_2.11">
-			<revision name="2.4.12" status="release" pubdate="20161028083504" resolver="jcenter" artresolver="jcenter" homepage="http://akka.io/" extra-info.apiURL="http://doc.akka.io/api/akka/2.4.12" downloaded="true" searched="true" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="1">
+			<revision name="2.4.12" status="release" pubdate="20161028083504" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://akka.io/" extra-info.apiURL="http://doc.akka.io/api/akka/2.4.12" downloaded="false" searched="false" default="false" conf="default, compile, runtime(*), master(compile), runtime, default(compile), compile(*), master" position="1">
 				<license name="Apache License, Version 2.0" url="http://www.apache.org/licenses/LICENSE-2.0"/>
-				<metadata-artifact status="successful" details="" size="2042" time="525" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/ivy-2.4.12.xml" searched="true" original-local-location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/ivy-2.4.12.xml.original" origin-is-local="false" origin-location="https://jcenter.bintray.com/com/typesafe/akka/akka-actor_2.11/2.4.12/akka-actor_2.11-2.4.12.pom"/>
+				<metadata-artifact status="no" details="" size="3102" time="0" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/ivy-2.4.12.xml" searched="false" origin-is-local="false" origin-location="https://jcenter.bintray.com/com/typesafe/akka/akka-actor_2.11/2.4.12/akka-actor_2.11-2.4.12.pom"/>
 				<caller organisation="socketchat" name="socketchat_2.11" conf="compile, runtime-internal, runtime, optional" rev="2.4.12" rev-constraint-default="2.4.12" rev-constraint-dynamic="2.4.12" callerrev="1.0"/>
 				<caller organisation="com.typesafe.akka" name="akka-slf4j_2.11" conf="default, compile, runtime, master" rev="2.4.12" rev-constraint-default="2.4.12" rev-constraint-dynamic="2.4.12" callerrev="2.4.12"/>
 				<artifacts>
-					<artifact name="akka-actor_2.11" type="jar" ext="jar" status="successful" details="" size="3301626" time="3946" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.4.12.jar">
+					<artifact name="akka-actor_2.11" type="jar" ext="jar" status="no" details="" size="3301626" time="0" location="/Users/ryan/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.4.12.jar">
 						<origin-location is-local="false" location="https://jcenter.bintray.com/com/typesafe/akka/akka-actor_2.11/2.4.12/akka-actor_2.11-2.4.12.jar"/>
 					</artifact>
 				</artifacts>
