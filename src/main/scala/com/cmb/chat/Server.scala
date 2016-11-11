@@ -73,7 +73,6 @@ class ClientHandler extends Actor {
                 clientIdent.foreach { ident =>
                   system.log.info("Creating new channel: {}", j.channel)
                   val channelHandler = ChannelHandler.createChannel(j.channel)
-                  channelHandler ! "START DAMMIT"
                   system.log.info("Created new channel {} at path {}", j.channel, channelHandler.path)
                   channelHandler ! UserJoinMessage(ident, self)
                 }
@@ -117,15 +116,14 @@ class ChannelHandler extends Actor {
 
   var userMap = Map.empty[String, ActorRef]
 
-  var last_tick = System.nanoTime()
-
   val stats = context.actorSelection("/user/stats")
 
   def receive = {
     case msg: ChannelMessage =>
       if (userMap.contains(msg.from)) {
         userMap.values.foreach {
-          _ ! ByteString(msg.formattedMessage)
+
+          _ ! ChatProtocolCommand.serialize(MessageCommand(msg.from, msg.formattedMessage))
         }
       } else {
         system.log.warning("Dropping message from user not in channel")
@@ -133,17 +131,17 @@ class ChannelHandler extends Actor {
       stats ! 1
     case join: UserJoinMessage =>
       userMap.values.foreach {
-        _ ! ByteString(SystemMessage(s"${join.name} has joined the channel").formattedMessage)
+
+        _ ! ChatProtocolCommand.serialize(MessageCommand("System", SystemMessage(s"${join.name} has joined the channel").formattedMessage))
       }
       userMap += join.name -> join.client
       stats ! 1
     case leave: UserLeaveMessage =>
       userMap -= leave.name
       userMap.values.foreach {
-        _ ! ByteString(SystemMessage(s"${leave.name} has left the channel").formattedMessage)
+        _ ! ChatProtocolCommand.serialize(MessageCommand("System", SystemMessage(s"${leave.name} has left the channel").formattedMessage))
       }
       stats ! 1
-    case "START DAMMIT" => system.log.info("Channel init message received")
   }
 }
 
@@ -176,8 +174,6 @@ class StatsActor extends Actor {
 }
 
 object Server extends App {
-
-  val channelLock = "lock"
 
   implicit val actorSystem = ActorSystem("chat-system")
   actorSystem.log.info("Starting server...")

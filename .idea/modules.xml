@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/socketchat.iml" filepath="$PROJECT_DIR$/.idea/modules/socketchat.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/socketchat-build.iml" filepath="$PROJECT_DIR$/.idea/modules/socketchat-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalanetworkchatexample.iml" filepath="$PROJECT_DIR$/.idea/modules/scalanetworkchatexample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scalanetworkchatexample-build.iml" filepath="$PROJECT_DIR$/.idea/modules/scalanetworkchatexample-build.iml" />
     </modules>
   </component>
 </project>

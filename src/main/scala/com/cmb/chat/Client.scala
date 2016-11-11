@@ -2,12 +2,12 @@ package com.cmb.chat
 
 import java.net.InetSocketAddress
 
-import akka.actor.{ActorSystem, Actor, Props, ActorRef}
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import akka.io.{IO, Tcp}
 import akka.util.ByteString
 
 import scala.io.StdIn
-import scala.util.Random
+import scala.util.{Random, Success}
 
 object Client {
   def props(remote: InetSocketAddress) = Props(classOf[Client], remote)
@@ -23,6 +23,8 @@ class Client(remote: InetSocketAddress) extends Actor {
   var received = 0
   var last_tick = System.nanoTime()
 
+  val chatProtocolParser: ChatProtocolParser = new ChatProtocolParser()
+
   def receive = {
     case CommandFailed(_: Connect) =>
       context stop self
@@ -35,7 +37,10 @@ class Client(remote: InetSocketAddress) extends Actor {
         case CommandFailed(w: Write) =>
           system.log.error("Write to server failed!")
         case Received(data) =>
-          // do nothing
+          chatProtocolParser.add(data)
+          chatProtocolParser.popMessage match {
+            case msg: Success[MessageCommand] => context.system.log.info(msg.value.message)
+          }
         case "close" =>
           connection ! Close
         case _: ConnectionClosed =>
@@ -83,4 +88,27 @@ object ClientRunner extends App {
   threads.foreach { t => t.start() }
 
   StdIn.readLine()
+}
+
+object CommandLineRunner extends App {
+
+  implicit val actorSystem = ActorSystem("client-system")
+  val ident = StdIn.readLine("Set nick: ")
+  val chan = StdIn.readLine("Set Chan: ")
+
+  actorSystem.log.info(s"Joining channel $chan as $ident")
+  val client = actorSystem.actorOf(Client.props(new InetSocketAddress("localhost", 9090)))
+  Thread.sleep(1000)
+  client ! ChatProtocolCommand.serialize(IdentCommand(ident))
+  Thread.sleep(1000)
+  client ! ChatProtocolCommand.serialize(JoinCommand(chan))
+  Thread.sleep(10)
+  var input = StdIn.readLine("> ")
+  while (input != "/exit") {
+    if (!input.isEmpty) client ! ChatProtocolCommand.serialize(MessageCommand(chan, input))
+    input = StdIn.readLine("> ")
+  }
+  client ! ChatProtocolCommand.serialize(LeaveCommand(chan))
+  Thread.sleep(500)
+  actorSystem.terminate().value
 }
